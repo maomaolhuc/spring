@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 注册UserDaoimpl -->
+    <bean id="userDao" class="com.tz.spring.proxy.impl.UserDaoImpl"/>
+
+    <!-- 注册PersonDaoimpl -->
+    <bean id="personDao" class="com.tz.spring.proxy.impl.PersonDaoImpl"/>
+
+    <!-- 注册前置通知，切面的实现 -->
+    <bean id="beforeAdvice" class="com.tz.spring.advice.MyBeforeAdvice"/>
+
+    <!-- 定义一个名称匹配切入点的顾问 -->
+    <bean id="beforeAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+        <property name="advice" ref="beforeAdvice"/>
+        <!-- 配置单个业务逻辑方法 -->
+        <property name="mappedName" value="addUser"/>
+        <!-- 配置多个业务逻辑方法 -->
+        <!-- <property name="mappedNames" value="addUser,searchUser"></property> -->
+        <!-- 用数组的方式配置多个业务逻辑 -->
+        <!-- <property name="mappedNames">
+            <array>
+                <value>addUser</value>
+                <value>searchUser</value>
+            </array>
+        </property> -->
+    </bean>
+
+    <!-- ================================================================ -->
+
+    <!-- 注册后置通知 -->
+    <bean id="afterAdvice" class="com.tz.spring.advice.MyAfterAdvice"/>
+
+    <!-- 定义一个正则表达式匹配，切入点顾问 -->
+    <bean id="afterAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="afterAdvice"/>
+        <!-- 正则表达式匹配单个 -->
+        <!-- <property name="pattern" value=".*add.*"></property> -->
+        <!-- 正则表达式匹配多个 -->
+        <!-- <property name="patterns" value=".*add.*,.*search.*"></property> -->
+        <!-- 数组的方式 正则表达式匹配多个 -->
+        <property name="patterns">
+            <array>
+                <value>.*add.*</value>
+                <value>.*search.*</value>
+            </array>
+        </property>
+    </bean>
+
+    <!-- 为配置文件中所有的advisor弄一个默认代理生成器 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+
+    <!-- 按照Bean的名称自动的代理生成器 -->
+    <!-- <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames" value="personDao"></property>
+        <property name="interceptorNames" value="beforeAdvice"></property>
+    </bean> -->
+
+</beans>

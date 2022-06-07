@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+    <!-- 配置一个通过setter注入的属性值 -->
+    <bean id="helloService" class="com.tz.spring.service.HelloServiceImpl">
+        <property name="name" value="伊恩同学"/>
+    </bean>
+
+    <!-- 配置一个通过构造器注入的属性值 -->
+    <bean id="hiService" class="com.tz.spring.service.HiServiceImpl">
+        <constructor-arg value="小轩同学"/>
+    </bean>
+
+    <!-- 配置多个属性的set注入 -->
+    <bean id="foodCar" class="com.tz.spring.dao.FoodCarDaoImpl">
+        <property name="company" value="福特汽车"/>
+        <property name="brand" value="Ford"/>
+        <property name="maxSpeed" value="180"/>
+    </bean>
+
+    <bean id="bydCar" class="com.tz.spring.dao.BydCarDaoImpl">
+        <constructor-arg value="比亚迪汽车"/>
+        <constructor-arg value="BYD"/>
+        <constructor-arg value="98000"/>
+    </bean>
+
+    <!-- 配置用户开汽车 -->
+    <bean id="userService" class="com.tz.spring.service.impl.UserServiceImpl">
+        <property name="name" value="满村同学"/>
+        <!-- 通过ref属性指向哪一个Bean -->
+        <!-- <property name="cars" ref="foodCar"></property> -->
+        <!-- 配置List -->
+        <property name="cars">
+            <!-- 使用List集合元素来装配属性 -->
+            <list>
+                <ref bean="bydCar"/>
+                <ref bean="foodCar"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 声明集合类型的Bean -->
+    <util:list id="cars1">
+        <ref bean="bydCar"/>
+        <ref bean="foodCar"/>
+    </util:list>
+
+    <!-- 配置用户开汽车 -->
+    <bean id="userService1" class="com.tz.spring.service.impl.UserServiceImpl">
+        <property name="name" value="满村同学"/>
+        <!-- 引用外部声明的list -->
+        <property name="cars" ref="cars1"/>
+    </bean>
+
+    <!-- 简化写法  p标签是property的一种简化的写法-->
+    <bean id="userService2" class="com.tz.spring.service.impl.UserServiceImpl"
+          p:cars-ref="cars1" p:name="玉帝哥哥">
+    </bean>
+
+</beans>

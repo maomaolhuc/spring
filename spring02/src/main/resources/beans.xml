@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- Alt + / -->
+    <bean id="user" class="com.tz.spring.bean.User"/>
+
+    <!-- 初始化方法 -->
+    <bean id="init" class="com.tz.spring.bean.InitBean" init-method="init"/>
+
+    <!-- destory方法 -->
+    <bean id="destroy" class="com.tz.spring.bean.DestroyBean" destroy-method="destroy"/>
+
+    <!-- 如果没有指定scope的值，默认值是singleton -->
+    <bean id="scope" class="com.tz.spring.bean.ScopeBean" scope="prototype"/>
+
+    <bean id="hello" class="com.tz.spring.bean.HelloWorld">
+        <property name="name" value="World"/>
+    </bean>
+
+    <bean id="china" class="com.tz.spring.bean.HelloChina" parent="hello">
+        <!-- <property name="name" value="China"></property> -->
+        <property name="age" value="10000"/>
+    </bean>
+
+</beans>

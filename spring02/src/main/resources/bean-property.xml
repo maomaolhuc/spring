@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="gather" class="com.tz.spring.bean.Gather">
+        <property name="strVal" value="I am String"/>
+        <property name="intVal" value="100"/>
+        <property name="listVal">
+            <list>
+                <value>list1</value>
+                <value>list2</value>
+                <value>list3</value>
+                <value>list4</value>
+                <value>list5</value>
+            </list>
+        </property>
+
+        <property name="setVal">
+            <set>
+                <value>set1</value>
+                <value>set5</value>
+                <value>set8</value>
+            </set>
+        </property>
+
+        <property name="mapVal">
+            <map>
+                <entry key="k1" value="map1"/>
+                <entry key="k2" value="map2"/>
+                <entry key="k3" value="map3"/>
+                <entry key="k4" value="map4"/>
+                <entry key="k5" value="map5"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- 测试lazy加载，false:没有赖加载，true:表示这个Bean已经赖加载 -->
+    <bean id="gatherOther" class="com.tz.spring.bean.GatherOther" lazy-init="false"/>
+
+</beans>
